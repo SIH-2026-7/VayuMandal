@@ -1,0 +1,2 @@
+import {simulate,validateConfig,alertGeoJSON} from '@/lib/weather-engine';
+export async function GET(request:Request){try{const p=new URL(request.url).searchParams,f=simulate(validateConfig(Object.fromEntries(p)));return Response.json(p.get('format')==='geojson'?alertGeoJSON(f):{mode:f.mode,validAt:f.validAt,alerts:[f.alert]},{headers:{'Cache-Control':'no-store'}})}catch(e){return Response.json({error:(e as Error).message},{status:400})}}
